@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import HomeView from './container/HomeView'
+import WeatherFilter from './container/WeatherFilter'
+import WeatherMap from './container/WeatherMap'
+import Mountain from './container/Mountain'
+import SignIn from './container/SignIn'
+import SignUp from './container/SignUp'
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/signin" element={<SignIn />}></Route>
+          <Route path="/signup" element={<SignUp />}></Route>
+          <Route path="/weathermap" element={<WeatherMap />}></Route>
+          <Route path="/weatherfilter" element={<WeatherFilter />}></Route>
+          <Route path="/mountain" element={<Mountain />}></Route>
+          <Route path="*" element={<HomeView />}></Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
