@@ -1,6 +1,13 @@
+import Header from '../components/Header'
+import Footer from '../components/Footer'
+
 function Mountain() {
     return (
-        <div>This is Mountain page</div>
+        <>
+            <Header />
+            <div>This is Mountain page</div>
+            <Footer />
+        </>
     )
 }
 

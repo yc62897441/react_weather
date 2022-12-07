@@ -1,6 +1,13 @@
+import Header from '../components/Header'
+import Footer from '../components/Footer'
+
 function SignIn() {
     return (
-        <div>This is SignIn page</div>
+        <>
+            <Header />
+            <div>This is SignIn page</div>
+            <Footer />
+        </>
     )
 }
 

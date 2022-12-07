@@ -1,6 +1,13 @@
+import Header from '../components/Header'
+import Footer from '../components/Footer'
+
 function WeatherFilter() {
     return (
-        <div>This is WeatherFilter page</div>
+        <>
+            <Header />
+            <div>This is WeatherFilter page</div>
+            <Footer />
+        </>
     )
 }
 

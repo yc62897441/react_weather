@@ -6,10 +6,19 @@ import Mountain from './container/Mountain'
 import SignIn from './container/SignIn'
 import SignUp from './container/SignUp'
 
+import { createGlobalStyle } from 'styled-components'
+const GlobalStyle = createGlobalStyle`
+  * {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  }
+`
 
 function App() {
   return (
     <div className="App">
+      <GlobalStyle />
       <BrowserRouter>
         <Routes>
           <Route path="/signin" element={<SignIn />}></Route>
