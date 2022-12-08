@@ -25,7 +25,7 @@ function App() {
           <Route path="/signup" element={<SignUp />}></Route>
           <Route path="/weathermap" element={<WeatherMap />}></Route>
           <Route path="/weatherfilter" element={<WeatherFilter />}></Route>
-          <Route path="/mountain" element={<Mountain />}></Route>
+          <Route path="/mountain/:id" element={<Mountain />}></Route>
           <Route path="*" element={<HomeView />}></Route>
         </Routes>
       </BrowserRouter>

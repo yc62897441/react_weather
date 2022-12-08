@@ -130,14 +130,21 @@ const links = [
   },
 ]
 
-function Header() {
-  const [inputValue, setInputValue] = useState('asdas')
+function Header({ locationsWeatherData }) {
+  const [inputValue, setInputValue] = useState('')
+  const [searchListItems, setSearchListItems] = useState([])
   const [isShowLinks, setIsShowLinks] = useState(false)
   const isShowSearchList = inputValue.length > 0 ? true : false
-  const searchListItems = []
 
   function handleChangeInput(value) {
     setInputValue(value)
+    setSearchListItems(locationsWeatherData.filter(location => {
+      if (location.locationName.includes(value)) {
+        return location
+      }
+      return
+    }
+    ))
   }
 
   function handleToggleShowLinks() {
@@ -157,7 +164,11 @@ function Header() {
           <SearchBarInput placeholder="請輸入山岳" onChange={(e) => handleChangeInput(e.target.value)} value={inputValue}></SearchBarInput>
         </SearchBarForm>
         <SearchBarList showSearchList={isShowSearchList}>
-          <SearchBarListItem>65465565</SearchBarListItem>
+          {searchListItems.map(location => <SearchBarListItem>
+            <ReactRouterLink to={'/mountain/' + location.parameterSet.parameter.parameterValue}>
+              {location.locationName}
+            </ReactRouterLink>
+          </SearchBarListItem>)}
         </SearchBarList>
       </SearchBarWrapper>
     </HeaderWrapper>

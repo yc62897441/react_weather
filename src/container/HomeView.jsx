@@ -89,80 +89,80 @@ const TableCellEachDayMtTitle = styled(TableCell)`
 `
 
 const dataCategory = {
-    oneWeek: 'F-B0053-031', //登山一週24小時天氣預報
-    oneWeekDayNight: 'F-B0053-033', //登山一週日夜天氣預報 33
-    perThreeHours: 'F-B0053-035' //登山三天3小時天氣預報
+  oneWeek: 'F-B0053-031', //登山一週24小時天氣預報
+  oneWeekDayNight: 'F-B0053-033', //登山一週日夜天氣預報 33
+  perThreeHours: 'F-B0053-035' //登山三天3小時天氣預報
 }
 const dataType = 'JSON'
 const CWBAuthorization = "XXX"
 
 function HomeView() {
-    const [locationsWeatherData, setLocationsWeatherData] = useState([])
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const response = await axios.get(`https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/${dataCategory.oneWeek}?Authorization=${CWBAuthorization}&format=${dataType}`)
-                if (response.status === 200) {
-                    setLocationsWeatherData([...response.data.cwbopendata.dataset.locations.location])
-                }
-            } catch (error) {
-                console.error(error)
-            }
+  const [locationsWeatherData, setLocationsWeatherData] = useState([])
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get(`https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/${dataCategory.oneWeek}?Authorization=${CWBAuthorization}&format=${dataType}`)
+        if (response.status === 200) {
+          setLocationsWeatherData([...response.data.cwbopendata.dataset.locations.location])
         }
-        fetchData()
-    }, [])
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    fetchData()
+  }, [])
 
-    return (
-        <>
-            <Header />
-            <HomeViewWrapper>
-                <MainTable>
-                    <TableHeader>
-                        <TableRow>
-                            <TableCellEachDayMtTitle>山岳</TableCellEachDayMtTitle>
-                            {/* 迴圈產生一周 7 天，每日日期之表頭欄位(7欄) */}
-                            {
-                                locationsWeatherData.length > 0 && locationsWeatherData[0].weatherElement[0].time.map(time =>
-                                    <TableCellEachDay key={time.startTime} class="table-cell table-cell-each-day">
-                                        <div>{time.startTime.slice(0, 10)}</div>
-                                        <div>
-                                            <div>最高溫</div>
-                                            <div>最低溫</div>
-                                            <div>降雨機率</div>
-                                            <div>天氣現象</div>
-                                        </div>
-                                    </TableCellEachDay>
-                                )
-                            }
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {/* 迴圈產生所有山岳地點，每個地點為一個 TableRow */}
-                        {locationsWeatherData.map(location =>
-                            <TableRow key={location.parameterSet.parameter.parameterValue}>
-                                <TableCellEachDayMtTitle> {location.locationName}</TableCellEachDayMtTitle>
-                                {/* 迴圈產生一周 7 天，每日天氣預報資訊 */}
-                                {Array.from({ length: 7 }, (value, index) => <TableCellEachDay>
-                                    <div></div>
-                                    <div>
-                                        <div>{location.weatherElement[3].time[index].elementValue.value}°C</div>
-                                        <div>{location.weatherElement[4].time[index].elementValue.value}°C</div>
-                                        <div>{location.weatherElement[9].time[index].elementValue.value || 'NA'}%</div>
-                                        <div>
-                                            <img
-                                                src={'https://www.cwb.gov.tw/V8/assets/img/weather_icons/weathers/svg_icon/day/' + location.weatherElement[12].time[0].elementValue[1].value + '.svg'}
-                                                alt="image" />
-                                        </div>
-                                    </div>
-                                </TableCellEachDay>)}
-                            </TableRow>
-                        )}
-                    </TableBody>
-                </MainTable>
-            </HomeViewWrapper>
-            <Footer />
-        </>
-    )
+  return (
+    <>
+      <Header locationsWeatherData={locationsWeatherData} />
+      <HomeViewWrapper>
+        <MainTable>
+          <TableHeader>
+            <TableRow>
+              <TableCellEachDayMtTitle>山岳</TableCellEachDayMtTitle>
+              {/* 迴圈產生一周 7 天，每日日期之表頭欄位(7欄) */}
+              {
+                locationsWeatherData.length > 0 && locationsWeatherData[0].weatherElement[0].time.map(time =>
+                  <TableCellEachDay key={time.startTime} class="table-cell table-cell-each-day">
+                    <div>{time.startTime.slice(0, 10)}</div>
+                    <div>
+                      <div>最高溫</div>
+                      <div>最低溫</div>
+                      <div>降雨機率</div>
+                      <div>天氣現象</div>
+                    </div>
+                  </TableCellEachDay>
+                )
+              }
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {/* 迴圈產生所有山岳地點，每個地點為一個 TableRow */}
+            {locationsWeatherData.map(location =>
+              <TableRow key={location.parameterSet.parameter.parameterValue}>
+                <TableCellEachDayMtTitle> {location.locationName}</TableCellEachDayMtTitle>
+                {/* 迴圈產生一周 7 天，每日天氣預報資訊 */}
+                {Array.from({ length: 7 }, (value, index) => <TableCellEachDay>
+                  <div></div>
+                  <div>
+                    <div>{location.weatherElement[3].time[index].elementValue.value}°C</div>
+                    <div>{location.weatherElement[4].time[index].elementValue.value}°C</div>
+                    <div>{location.weatherElement[9].time[index].elementValue.value || 'NA'}%</div>
+                    <div>
+                      <img
+                        src={'https://www.cwb.gov.tw/V8/assets/img/weather_icons/weathers/svg_icon/day/' + location.weatherElement[12].time[0].elementValue[1].value + '.svg'}
+                        alt="image" />
+                    </div>
+                  </div>
+                </TableCellEachDay>)}
+              </TableRow>
+            )}
+          </TableBody>
+        </MainTable>
+      </HomeViewWrapper>
+      <Footer />
+    </>
+  )
 }
 
 export default HomeView
