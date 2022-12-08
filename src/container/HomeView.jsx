@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react'
-import axios from 'axios'
 import styled from 'styled-components'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
@@ -88,30 +86,7 @@ const TableCellEachDayMtTitle = styled(TableCell)`
   width: 90px;
 `
 
-const dataCategory = {
-  oneWeek: 'F-B0053-031', //登山一週24小時天氣預報
-  oneWeekDayNight: 'F-B0053-033', //登山一週日夜天氣預報 33
-  perThreeHours: 'F-B0053-035' //登山三天3小時天氣預報
-}
-const dataType = 'JSON'
-const CWBAuthorization = "XXX"
-
-function HomeView() {
-  const [locationsWeatherData, setLocationsWeatherData] = useState([])
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await axios.get(`https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/${dataCategory.oneWeek}?Authorization=${CWBAuthorization}&format=${dataType}`)
-        if (response.status === 200) {
-          setLocationsWeatherData([...response.data.cwbopendata.dataset.locations.location])
-        }
-      } catch (error) {
-        console.error(error)
-      }
-    }
-    fetchData()
-  }, [])
-
+function HomeView({ locationsWeatherData }) {
   return (
     <>
       <Header locationsWeatherData={locationsWeatherData} />
