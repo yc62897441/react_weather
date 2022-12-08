@@ -23,16 +23,23 @@ const dataCategory = {
   perThreeHours: 'F-B0053-035' //登山三天3小時天氣預報
 }
 const dataType = 'JSON'
-const CWBAuthorization = ""
+const CWBAuthorization = "CWB-E990FC05-D262-47A9-A5A3-DB445283884D"
 
 function App() {
   const [locationsWeatherData, setLocationsWeatherData] = useState([])
+  const [locationsWeatherDataThreeHours, setLocationsWeatherDataThreeHours] = useState([])
+
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await axios.get(`https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/${dataCategory.oneWeek}?Authorization=${CWBAuthorization}&format=${dataType}`)
         if (response.status === 200) {
           setLocationsWeatherData([...response.data.cwbopendata.dataset.locations.location])
+        }
+
+        const response2 = await axios.get(`https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/${dataCategory.perThreeHours}?Authorization=${CWBAuthorization}&format=${dataType}`)
+        if (response2.status === 200) {
+          setLocationsWeatherDataThreeHours([...response2.data.cwbopendata.dataset.locations.location])
         }
       } catch (error) {
         console.error(error)
@@ -49,7 +56,7 @@ function App() {
           <Route path="/signup" element={<SignUp />}></Route>
           <Route path="/weathermap" element={<WeatherMap />}></Route>
           <Route path="/weatherfilter" element={<WeatherFilter />}></Route>
-          <Route path="/mountain/:id" element={<Mountain locationsWeatherData={locationsWeatherData} />}></Route>
+          <Route path="/mountain/:id" element={<Mountain locationsWeatherData={locationsWeatherData} locationsWeatherDataThreeHours={locationsWeatherDataThreeHours} />}></Route>
           <Route path="*" element={<HomeView locationsWeatherData={locationsWeatherData} />}></Route>
         </Routes>
       </BrowserRouter>
