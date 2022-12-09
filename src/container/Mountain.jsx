@@ -134,7 +134,6 @@ function Mountain({ locationsWeatherData, locationsWeatherDataThreeHours }) {
             setCurrentMountainThreeHours(tempCurrentMountainThreeHours)
         }
     }, [locationsWeatherData, locationsWeatherDataThreeHours, mountainId])
-
     return (
         <>
             <Header locationsWeatherData={locationsWeatherData} />

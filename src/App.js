@@ -28,7 +28,6 @@ const CWBAuthorization = "CWB-E990FC05-D262-47A9-A5A3-DB445283884D"
 function App() {
   const [locationsWeatherData, setLocationsWeatherData] = useState([])
   const [locationsWeatherDataThreeHours, setLocationsWeatherDataThreeHours] = useState([])
-
   useEffect(() => {
     async function fetchData() {
       try {
@@ -54,7 +53,7 @@ function App() {
         <Routes>
           <Route path="/signin" element={<SignIn />}></Route>
           <Route path="/signup" element={<SignUp />}></Route>
-          <Route path="/weathermap" element={<WeatherMap />}></Route>
+          <Route path="/weathermap" element={<WeatherMap locationsWeatherData={locationsWeatherData} />}></Route>
           <Route path="/weatherfilter" element={<WeatherFilter />}></Route>
           <Route path="/mountain/:id" element={<Mountain locationsWeatherData={locationsWeatherData} locationsWeatherDataThreeHours={locationsWeatherDataThreeHours} />}></Route>
           <Route path="*" element={<HomeView locationsWeatherData={locationsWeatherData} />}></Route>
