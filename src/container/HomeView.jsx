@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import { Link as ReactRouterLink } from 'react-router-dom'
 
 const HomeViewWrapper = styled.div`
   width: 100vw;
@@ -86,6 +87,19 @@ const TableCellEachDayMtTitle = styled(TableCell)`
   width: 90px;
 `
 
+const Link = styled(ReactRouterLink)`
+  margin-right: 0.5rem;
+  cursor: pointer;
+  text-decoration: none;
+  color: #0D6EFD;
+  :hover {
+    color: #1133DD;
+  }
+  @media (min-width: 576px) {
+    margin-right: 1.2rem;
+  }
+`
+
 function HomeView({ locationsWeatherData }) {
   return (
     <>
@@ -115,7 +129,11 @@ function HomeView({ locationsWeatherData }) {
             {/* 迴圈產生所有山岳地點，每個地點為一個 TableRow */}
             {locationsWeatherData.map(location =>
               <TableRow key={location.parameterSet.parameter.parameterValue}>
-                <TableCellEachDayMtTitle> {location.locationName}</TableCellEachDayMtTitle>
+                <TableCellEachDayMtTitle>
+                  <ReactRouterLink to={'/mountain/' + location.parameterSet.parameter.parameterValue}>
+                    {location.locationName}
+                  </ReactRouterLink>
+                </TableCellEachDayMtTitle>
                 {/* 迴圈產生一周 7 天，每日天氣預報資訊 */}
                 {Array.from({ length: 7 }, (value, index) => <TableCellEachDay>
                   <div></div>
