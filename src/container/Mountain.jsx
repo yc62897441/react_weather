@@ -1,9 +1,9 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import { useImmer } from 'use-immer';
 import styled from 'styled-components'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import { config } from '../utils/dataConfig'
 
 const MountainWrapper = styled.div`
   width: 100vw;
@@ -70,69 +70,70 @@ const TableCellEachDayMtTitle = styled(TableCell)`
 `
 
 function Mountain({ locationsWeatherData, locationsWeatherDataThreeHours }) {
-    let MountainId = useParams().id;
-    const [currentMountain, updateCurrentMountain] = useImmer()
-    const [currentMountainThreeHours, updateCurrentMountainThreeHours] = useImmer()
-    let isCurrentMountainFormated = useRef(false)
-    let isCurrentMountainThreeHoursFormated = useRef(false)
+    let mountainId = useParams().id
+    const [currentMountain, setCurrentMountain] = useState()
+    const [currentMountainThreeHours, setCurrentMountainThreeHours] = useState()
 
-    console.log('Mountain')
-    console.log('currentMountain', currentMountain)
-    console.log('currentMountainThreeHours', currentMountainThreeHours)
-    console.log('isCurrentMountainFormated', isCurrentMountainFormated)
-    console.log('isCurrentMountainThreeHoursFormated', isCurrentMountainThreeHoursFormated)
-    console.log('==========')
+    function formatCurrentMountain(initCurrentMountain) {
+        if (initCurrentMountain) {
+            // 暫存資料陣列
+            const tempCurrentMountain = {
+                locationName: initCurrentMountain.locationName,
+                weatherElement: []
+            }
 
-    useEffect(() => {
-        console.log('useEffect useEffect useEffect locationsWeatherData')
-        updateCurrentMountain(locationsWeatherData.find(location => location.parameterSet.parameter.parameterValue === MountainId))
-    }, [locationsWeatherData])
-
-    useEffect(() => {
-        console.log('useEffect useEffect useEffect locationsWeatherDataThreeHours')
-        updateCurrentMountainThreeHours(locationsWeatherDataThreeHours.find(location => location.parameterSet.parameter.parameterValue === MountainId))
-    }, [locationsWeatherDataThreeHours])
-
-    formatCurrentMountain()
-
-    function formatCurrentMountain() {
-        if (currentMountain && !isCurrentMountainFormated.current) {
-            console.log('format format format currentMountain')
-            isCurrentMountainFormated.current = true
-            currentMountain.weatherElement[0].time.forEach(eachDay => eachDay.elementValue.value = eachDay.elementValue.value + '°C')
-            currentMountain.weatherElement[1].time.forEach(eachDay => eachDay.elementValue.value = eachDay.elementValue.value + '°C')
-            currentMountain.weatherElement[2].time.forEach(eachDay => eachDay.elementValue.value = eachDay.elementValue.value + '%')
-            currentMountain.weatherElement[3].time.forEach(eachDay => eachDay.elementValue.value = eachDay.elementValue.value + '°C')
-            currentMountain.weatherElement[4].time.forEach(eachDay => eachDay.elementValue.value = eachDay.elementValue.value + '°C')
-            currentMountain.weatherElement[5].time.forEach(eachDay => eachDay.elementValue.value = eachDay.elementValue.value + '°C')
-            currentMountain.weatherElement[6].time.forEach(eachDay => eachDay.elementValue.value = eachDay.elementValue.value + '°C')
-            currentMountain.weatherElement[7].time.forEach(eachDay => eachDay.elementValue.value = eachDay.elementValue[1].value)
-            currentMountain.weatherElement[8].time.forEach(eachDay => eachDay.elementValue.value = eachDay.elementValue[1].value)
-            currentMountain.weatherElement[9].time.forEach(eachDay => eachDay.elementValue.value = eachDay.elementValue.value + '%')
-            currentMountain.weatherElement[10].time.forEach(eachDay => eachDay.elementValue.value = eachDay.elementValue.value)
-            currentMountain.weatherElement[11].time.forEach(eachDay => eachDay.elementValue.value = eachDay.elementValue[0].value + eachDay.elementValue[0].measures)
-            currentMountain.weatherElement[12].time.forEach(eachDay => eachDay.elementValue.value = eachDay.elementValue[0].value)
-            currentMountain.weatherElement[13].time.forEach(eachDay => eachDay.elementValue.value = eachDay.elementValue[0].value)
-        }
-
-        if (currentMountainThreeHours && !isCurrentMountainThreeHoursFormated.current) {
-            console.log('format format format currentMountainThreeHours')
-            isCurrentMountainThreeHoursFormated.current = true
-            currentMountainThreeHours.weatherElement[0].time.forEach(eachDay => eachDay.elementValue.value = eachDay.elementValue.value + '°C')
-            currentMountainThreeHours.weatherElement[1].time.forEach(eachDay => eachDay.elementValue.value = eachDay.elementValue.value + '°C')
-            currentMountainThreeHours.weatherElement[2].time.forEach(eachDay => eachDay.elementValue.value = eachDay.elementValue.value + '%')
-            currentMountainThreeHours.weatherElement[3].time.forEach(eachDay => eachDay.elementValue.value = eachDay.elementValue.value + '%')
-            currentMountainThreeHours.weatherElement[4].time.forEach(eachDay => eachDay.elementValue.value = eachDay.elementValue.value + '%')
-            currentMountainThreeHours.weatherElement[6].time.forEach(eachDay => eachDay.elementValue.value = eachDay.elementValue[0].value + eachDay.elementValue[0].measures)
-            currentMountainThreeHours.weatherElement[7].time.forEach(eachDay => eachDay.elementValue.value = eachDay.elementValue[1].value)
-            currentMountainThreeHours.weatherElement[8].time.forEach(eachDay => eachDay.elementValue.value = eachDay.elementValue.value + '°C')
-            currentMountainThreeHours.weatherElement[9].time.forEach(eachDay => eachDay.elementValue.value = eachDay.elementValue[0].value)
+            // 將資料整理後，存進暫存資料陣列
+            initCurrentMountain.weatherElement.forEach(weatherElement => {
+                const tempWeatherElement = { description: weatherElement.description, time: [] }
+                weatherElement.time.forEach(eachDay => {
+                    tempWeatherElement.time.push(
+                        {
+                            value: config.mountain[weatherElement.elementName].format(eachDay.elementValue),
+                            startTime: eachDay.startTime.slice(0, 10)
+                        })
+                })
+                tempCurrentMountain.weatherElement.push(tempWeatherElement)
+            })
+            // 回傳暫存資料陣列
+            return tempCurrentMountain
         }
     }
 
-    // TODO: run 兩輪，why?
-    // console.log('locationsWeatherData', locationsWeatherData)
-    // console.log('MountainId', MountainId)
+    function formatCurrentMountainThreeHours(initCurrentMountainThreeHours) {
+        if (initCurrentMountainThreeHours) {
+            // 暫存資料陣列
+            const tempCurrentMountainThreeHours = {
+                locationName: initCurrentMountainThreeHours.locationName,
+                weatherElement: []
+            }
+
+            // 將資料整理後，存進暫存資料陣列
+            initCurrentMountainThreeHours.weatherElement.forEach(weatherElement => {
+                const tempWeatherElement = { description: weatherElement.description, time: [] }
+
+                weatherElement.time.forEach(eachDay => {
+                    tempWeatherElement.time.push(
+                        {
+                            value: config.mountainThreeHours[weatherElement.elementName].format(eachDay.elementValue),
+                            dataTime: eachDay.dataTime && `${eachDay.dataTime.slice(0, 10)} ${eachDay.dataTime.slice(11, 16)}`
+                        })
+                })
+                tempCurrentMountainThreeHours.weatherElement.push(tempWeatherElement)
+            })
+
+            // 回傳暫存資料陣列
+            return tempCurrentMountainThreeHours
+        }
+    }
+
+    useEffect(() => {
+        if (locationsWeatherData) {
+            const tempCurrentMountain = formatCurrentMountain(locationsWeatherData.find(location => location.parameterSet.parameter.parameterValue === mountainId))
+            const tempCurrentMountainThreeHours = formatCurrentMountainThreeHours(locationsWeatherDataThreeHours.find(location => location.parameterSet.parameter.parameterValue === mountainId))
+            setCurrentMountain(tempCurrentMountain)
+            setCurrentMountainThreeHours(tempCurrentMountainThreeHours)
+        }
+    }, [locationsWeatherData, locationsWeatherDataThreeHours, mountainId])
 
     return (
         <>
@@ -163,7 +164,7 @@ function Mountain({ locationsWeatherData, locationsWeatherDataThreeHours }) {
                                     {/* 迴圈產生一周 7 天，每日天氣預報資訊 */}
                                     {Array.from({ length: 7 }, (value, index) => <TableCellEachDay key={index}>
                                         <div>
-                                            <div>{weatherElement.time[index].elementValue.value}</div>
+                                            <div>{weatherElement.time[index].value}</div>
                                         </div>
                                     </TableCellEachDay>)}
                                 </TableRow>
@@ -172,7 +173,7 @@ function Mountain({ locationsWeatherData, locationsWeatherDataThreeHours }) {
                     </MainTable>
                 }
                 <br></br>
-                {currentMountainThreeHours && currentMountainThreeHours.locationName + ' 3小時預報預報'}
+                {currentMountainThreeHours && currentMountainThreeHours.locationName + ' 3小時天氣預報'}
                 {
                     currentMountainThreeHours && <MainTable>
                         <TableHeader>
@@ -182,7 +183,7 @@ function Mountain({ locationsWeatherData, locationsWeatherDataThreeHours }) {
                                 {
                                     currentMountainThreeHours.weatherElement[0].time.map(time =>
                                         <TableCellEachDay key={time.dataTime}>
-                                            {time.dataTime.slice(0, 10) + ' ' + time.dataTime.slice(11, 16)}
+                                            {time.dataTime}
                                         </TableCellEachDay>
                                     )
                                 }
@@ -199,19 +200,19 @@ function Mountain({ locationsWeatherData, locationsWeatherDataThreeHours }) {
                                         weatherElement.time.length > 12 ?
                                             Array.from({ length: weatherElement.time.length }, (value, index) => <TableCellEachDay key={index}>
                                                 <div>
-                                                    <div>{weatherElement.time[index].elementValue.value}</div>
+                                                    <div>{weatherElement.time[index].value}</div>
                                                 </div>
                                             </TableCellEachDay>)
                                             : weatherElement.time.length > 6 ?
                                                 Array.from({ length: weatherElement.time.length }, (value, index) => <TableCellEachDayColspan2 key={index}>
                                                     <div>
-                                                        <div>{weatherElement.time[index].elementValue.value}</div>
+                                                        <div>{weatherElement.time[index].value}</div>
                                                     </div>
                                                 </TableCellEachDayColspan2>)
 
                                                 : Array.from({ length: weatherElement.time.length }, (value, index) => <TableCellEachDayColspan4 key={index}>
                                                     <div>
-                                                        <div>{weatherElement.time[index].elementValue.value}</div>
+                                                        <div>{weatherElement.time[index].value}</div>
                                                     </div>
                                                 </TableCellEachDayColspan4>)
                                     }
