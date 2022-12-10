@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import styled from 'styled-components'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
@@ -88,9 +89,11 @@ const TableCellEachDayMtTitle = styled(TableCell)`
 `
 
 const Link = styled(ReactRouterLink)`
+  width: 100%;
   margin-right: 0.5rem;
   cursor: pointer;
   text-decoration: none;
+  text-align: center;
   color: #0D6EFD;
   :hover {
     color: #1133DD;
@@ -130,9 +133,9 @@ function HomeView({ locationsWeatherData }) {
             {locationsWeatherData.map(location =>
               <TableRow key={location.parameterSet.parameter.parameterValue}>
                 <TableCellEachDayMtTitle>
-                  <ReactRouterLink to={'/mountain/' + location.parameterSet.parameter.parameterValue}>
+                  <Link to={'/mountain/' + location.parameterSet.parameter.parameterValue}>
                     {location.locationName}
-                  </ReactRouterLink>
+                  </Link>
                 </TableCellEachDayMtTitle>
                 {/* 迴圈產生一周 7 天，每日天氣預報資訊 */}
                 {Array.from({ length: 7 }, (value, index) => <TableCellEachDay>
@@ -144,7 +147,7 @@ function HomeView({ locationsWeatherData }) {
                     <div>
                       <img
                         src={'https://www.cwb.gov.tw/V8/assets/img/weather_icons/weathers/svg_icon/day/' + location.weatherElement[12].time[0].elementValue[1].value + '.svg'}
-                        alt="image" />
+                        alt="image" title={location.weatherElement[12].time[0].elementValue[0].value} />
                     </div>
                   </div>
                 </TableCellEachDay>)}

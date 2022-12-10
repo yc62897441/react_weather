@@ -55,9 +55,11 @@ const LinksWrapper = styled.div`
 `
 
 const Link = styled(ReactRouterLink)`
+  width: 100%;
   margin-right: 0.5rem;
   cursor: pointer;
   text-decoration: none;
+  text-align: center;
   color: #0D6EFD;
   :hover {
     color: #1133DD;
@@ -165,9 +167,9 @@ function Header({ locationsWeatherData }) {
         </SearchBarForm>
         <SearchBarList showSearchList={isShowSearchList}>
           {searchListItems.map(location => <SearchBarListItem>
-            <ReactRouterLink to={'/mountain/' + location.parameterSet.parameter.parameterValue}>
+            <Link to={'/mountain/' + location.parameterSet.parameter.parameterValue}>
               {location.locationName}
-            </ReactRouterLink>
+            </Link>
           </SearchBarListItem>)}
         </SearchBarList>
       </SearchBarWrapper>

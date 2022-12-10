@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
+/* eslint-disable jsx-a11y/alt-text */
 import { useEffect, useRef } from 'react'
 import { Link as ReactRouterLink } from 'react-router-dom'
 import styled from 'styled-components'
@@ -175,7 +177,7 @@ function WeatherMap({ locationsWeatherDataThreeHours }) {
                                     <div>{locat.weatherElement[3].time[0].elementValue.value}%</div>
                                 </LocatInfoWrapper>
                                 <LocatWxImgWrapper>
-                                    <img src={'https://www.cwb.gov.tw/V8/assets/img/weather_icons/weathers/svg_icon/day/' + locat.weatherElement[9].time[0].elementValue[1].value + '.svg'} alt="" />
+                                    <img src={'https://www.cwb.gov.tw/V8/assets/img/weather_icons/weathers/svg_icon/day/' + locat.weatherElement[9].time[0].elementValue[1].value + '.svg'} alt="image" title={locat.weatherElement[9].time[0].elementValue[0].value} />
                                 </LocatWxImgWrapper>
                             </LocatWrapper>
                         </ReactRouterLink>
