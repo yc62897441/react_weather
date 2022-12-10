@@ -54,7 +54,7 @@ function App() {
                   <Route path="/signin" element={<SignIn />}></Route>
                   <Route path="/signup" element={<SignUp />}></Route>
                   <Route path="/weathermap" element={<WeatherMap locationsWeatherDataThreeHours={locationsWeatherDataThreeHours} />}></Route>
-                  <Route path="/weatherfilter" element={<WeatherFilter />}></Route>
+                  <Route path="/weatherfilter" element={<WeatherFilter locationsWeatherData={locationsWeatherData} />}></Route>
                   <Route path="/mountain/:id" element={<Mountain locationsWeatherData={locationsWeatherData} locationsWeatherDataThreeHours={locationsWeatherDataThreeHours} />}></Route>
                   <Route path="*" element={<HomeView locationsWeatherData={locationsWeatherData} />}></Route>
               </Routes>
