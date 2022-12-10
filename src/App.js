@@ -47,20 +47,20 @@ function App() {
     fetchData()
   }, [])
   return (
-    <div className="App">
-      <GlobalStyle />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/signin" element={<SignIn />}></Route>
-          <Route path="/signup" element={<SignUp />}></Route>
-          <Route path="/weathermap" element={<WeatherMap locationsWeatherData={locationsWeatherData} />}></Route>
-          <Route path="/weatherfilter" element={<WeatherFilter />}></Route>
-          <Route path="/mountain/:id" element={<Mountain locationsWeatherData={locationsWeatherData} locationsWeatherDataThreeHours={locationsWeatherDataThreeHours} />}></Route>
-          <Route path="*" element={<HomeView locationsWeatherData={locationsWeatherData} />}></Route>
-        </Routes>
-      </BrowserRouter>
-    </div>
-  );
+      <div className="App">
+          <GlobalStyle />
+          <BrowserRouter>
+              <Routes>
+                  <Route path="/signin" element={<SignIn />}></Route>
+                  <Route path="/signup" element={<SignUp />}></Route>
+                  <Route path="/weathermap" element={<WeatherMap locationsWeatherDataThreeHours={locationsWeatherDataThreeHours} />}></Route>
+                  <Route path="/weatherfilter" element={<WeatherFilter />}></Route>
+                  <Route path="/mountain/:id" element={<Mountain locationsWeatherData={locationsWeatherData} locationsWeatherDataThreeHours={locationsWeatherDataThreeHours} />}></Route>
+                  <Route path="*" element={<HomeView locationsWeatherData={locationsWeatherData} />}></Route>
+              </Routes>
+          </BrowserRouter>
+      </div>
+  )
 }
 
 export default App;
