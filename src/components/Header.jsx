@@ -139,14 +139,7 @@ function Header({ locationsWeatherData }) {
 
     function handleChangeInput(value) {
         setInputValue(value)
-        setSearchListItems(
-            locationsWeatherData.filter((location) => {
-                if (location.locationName.includes(value)) {
-                    return location
-                }
-                return
-            })
-        )
+        setSearchListItems(locationsWeatherData.filter((location) => location.locationName.includes(value)))
     }
 
     function handleToggleShowLinks() {
@@ -156,7 +149,7 @@ function Header({ locationsWeatherData }) {
     return (
         <HeaderWrapper>
             <DropdownBtn>
-                <img onClick={handleToggleShowLinks} src={burgerBarImg} />
+                <img onClick={handleToggleShowLinks} src={burgerBarImg} alt="" />
             </DropdownBtn>
             <LinksWrapper isShowLinks={isShowLinks}>
                 {links.map((link) => (
