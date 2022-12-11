@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { Link as ReactRouterLink } from 'react-router-dom'
+import { formatDate } from '../helpers/moment'
 
 const HomeViewWrapper = styled.div`
     width: 100vw;
@@ -116,7 +117,7 @@ function HomeView({ locationsWeatherData }) {
                             {locationsWeatherData.length > 0 &&
                                 locationsWeatherData[0].weatherElement[0].time.map((time) => (
                                     <TableCellEachDay key={time.startTime} class="table-cell table-cell-each-day">
-                                        <div>{time.startTime.slice(0, 10)}</div>
+                                        <div>{formatDate(time.startTime)}</div>
                                         <div>
                                             <div>最高溫</div>
                                             <div>最低溫</div>

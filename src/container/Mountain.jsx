@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { config } from '../utils/dataConfig'
+import { formatDate, formatDateTime } from '../helpers/moment'
 
 const MountainWrapper = styled.div`
     width: 100vw;
@@ -113,7 +114,7 @@ function Mountain({ locationsWeatherData, locationsWeatherDataThreeHours }) {
                 weatherElement.time.forEach((eachDay) => {
                     tempWeatherElement.time.push({
                         value: config.mountainThreeHours[weatherElement.elementName].format(eachDay.elementValue),
-                        dataTime: eachDay.dataTime && `${eachDay.dataTime.slice(0, 10)} ${eachDay.dataTime.slice(11, 16)}`,
+                        dataTime: eachDay.dataTime && eachDay.dataTime,
                     })
                 })
                 tempCurrentMountainThreeHours.weatherElement.push(tempWeatherElement)
@@ -146,7 +147,7 @@ function Mountain({ locationsWeatherData, locationsWeatherDataThreeHours }) {
                                 {/* 迴圈產生一周 7 天，每日日期之表頭欄位(7欄) */}
                                 {currentMountain.weatherElement[0].time.map((time) => (
                                     <TableCellEachDay key={time.startTime}>
-                                        <div>{time.startTime.slice(0, 10)}</div>
+                                        <div>{formatDate(time.startTime)}</div>
                                     </TableCellEachDay>
                                 ))}
                             </TableRow>
@@ -178,7 +179,9 @@ function Mountain({ locationsWeatherData, locationsWeatherDataThreeHours }) {
                                 <TableCellEachDayMtTitle>天氣類型</TableCellEachDayMtTitle>
                                 {/* 迴圈產生 3 天內每 3 小時的區間，每日日期之表頭欄位(24欄) */}
                                 {currentMountainThreeHours.weatherElement[0].time.map((time) => (
-                                    <TableCellEachDay key={time.dataTime}>{time.dataTime}</TableCellEachDay>
+                                    <TableCellEachDay key={time.dataTime}>
+                                        <div>{formatDateTime(time.dataTime)}</div>
+                                    </TableCellEachDay>
                                 ))}
                             </TableRow>
                         </TableHeader>
