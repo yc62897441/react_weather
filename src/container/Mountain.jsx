@@ -5,53 +5,12 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { config } from '../utils/dataConfig'
 import { formatMoment } from '../helpers/moment'
+import { MainTable, TableHeader, TableBody, TableRow, TableCell, TableCellEachDayMtTitle } from '../components/FormGroup'
 
 const MountainWrapper = styled.div`
     width: 100vw;
     padding: 10px;
     background-color: #fbfbfb;
-`
-
-const MainTable = styled.table`
-    background-color: #fbfbfb;
-    border: 2px solid #555555;
-    color: #000000;
-`
-
-const TableHeader = styled.thead`
-    /* 沒有加入 display: inline-block，則 table__body 的寬度會縮起來；每一列的高度也無法固定，會均分 height */
-    display: inline-block;
-    line-height: 20px;
-    border-bottom: 2px solid #555555;
-`
-
-const TableBody = styled.tbody`
-    /* 加入 display: block，才可以用 height 或 max-height 搭配 overflow 去設定超出高度後的樣式*/
-    display: block;
-`
-
-const TableRow = styled.tr`
-    display: flex;
-    flex-direction: row;
-    min-height: 50px;
-    :nth-child(2n) {
-        background-color: #e9e9e9;
-    }
-`
-
-const TableCell = styled.td`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    border-right: 1px solid #555555;
-    div {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        flex: 1;
-    }
 `
 
 const TableCellEachDay = styled(TableCell)`
@@ -64,10 +23,6 @@ const TableCellEachDayColspan2 = styled(TableCellEachDay)`
 
 const TableCellEachDayColspan4 = styled(TableCellEachDay)`
     width: 600px;
-`
-
-const TableCellEachDayMtTitle = styled(TableCell)`
-    width: 90px;
 `
 
 function Mountain({ locationsWeatherData, locationsWeatherDataThreeHours }) {
