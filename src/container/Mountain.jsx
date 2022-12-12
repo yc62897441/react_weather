@@ -5,12 +5,13 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { config } from '../utils/dataConfig'
 import { formatMoment } from '../helpers/moment'
+import { MainWrapper } from '../components/MainWrapper'
 import { MainTable, TableHeader, TableBody, TableRow, TableCell, TableCellEachDayMtTitle } from '../components/FormGroup'
 
-const MountainWrapper = styled.div`
+const MountainWrapper = styled(MainWrapper)`
     width: 100vw;
-    padding: 10px;
-    background-color: #fbfbfb;
+    height: auto;
+    overflow: visible;
 `
 
 const TableCellEachDay = styled(TableCell)`

@@ -4,15 +4,9 @@ import styled from 'styled-components'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { formatMoment } from '../helpers/moment'
+import { MainWrapper } from '../components/MainWrapper'
 import { MainTable, TableHeader, TableBody, TableRow, TableCellEachDay, TableCellEachDayMtTitle } from '../components/FormGroup'
 
-const WaetherFilterWrapper = styled.div`
-    width: 100vw;
-    height: calc(100vh - 90px);
-    overflow: scroll;
-    padding: 10px;
-    background-color: #fbfbfb;
-`
 const FilterControlWrapper = styled.div`
     display: flex;
     flex-direction: column;
@@ -32,6 +26,7 @@ const FilterControlWrapper = styled.div`
         }
     }
 `
+
 const FilterForm = styled.form`
     display: flex;
     flex-direction: column;
@@ -104,7 +99,7 @@ function WeatherFilter({ locationsWeatherData }) {
     return (
         <>
             <Header />
-            <WaetherFilterWrapper>
+            <MainWrapper>
                 <FilterControlWrapper>
                     <FilterForm>
                         <FormRow>
@@ -188,7 +183,7 @@ function WeatherFilter({ locationsWeatherData }) {
                 ) : (
                     '查無符合條件之地點，請重新搜尋'
                 )}
-            </WaetherFilterWrapper>
+            </MainWrapper>
             <Footer />
         </>
     )
