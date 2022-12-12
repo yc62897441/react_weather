@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import { CWBHttpRequest } from './utils/api'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import HomeView from './container/HomeView'
 import WeatherFilter from './container/WeatherFilter'
@@ -24,7 +24,6 @@ const dataCategory = {
     perThreeHours: 'F-B0053-035', //登山三天3小時天氣預報
 }
 const dataType = 'JSON'
-const CWBAuthorization = 'CWB-E990FC05-D262-47A9-A5A3-DB445283884D'
 
 function App() {
     const [locationsWeatherData, setLocationsWeatherData] = useState([])
@@ -33,23 +32,26 @@ function App() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await axios.get(`https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/${dataCategory.oneWeek}?Authorization=${CWBAuthorization}&format=${dataType}`)
-                if (response.status === 200) {
-                    setLocationsWeatherData([...response.data.cwbopendata.dataset.locations.location])
+                const [responseOneWeek, responsePerThreeHours] = await Promise.all([
+                    CWBHttpRequest('get', dataCategory.oneWeek, dataType, '公開資料取得錯誤'),
+                    CWBHttpRequest('get', dataCategory.perThreeHours, dataType, '公開資料取得錯誤')
+                ])
+
+                if (responseOneWeek.status === 200) {
+                    setLocationsWeatherData([...responseOneWeek.data.cwbopendata.dataset.locations.location])
+                } else {
+                    throw new Error()
+                }
+                if (responsePerThreeHours.status === 200) {
+                    setLocationsWeatherDataThreeHours([...responsePerThreeHours.data.cwbopendata.dataset.locations.location])
                 } else {
                     throw new Error()
                 }
 
-                const response2 = await axios.get(`https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/${dataCategory.perThreeHours}?Authorization=${CWBAuthorization}&format=${dataType}`)
-                if (response2.status === 200) {
-                    setLocationsWeatherDataThreeHours([...response2.data.cwbopendata.dataset.locations.location])
-                } else {
-                    throw new Error()
-                }
                 setIsApiError(false)
             } catch (error) {
+                console.error('error', error)
                 setIsApiError(true)
-                console.error(error)
             }
         }
         fetchData()
@@ -69,8 +71,8 @@ function App() {
                             <Route path="*" element={<HomeView locationsWeatherData={locationsWeatherData} />}></Route>
                         </>
                     ) : (
-                        <Route path="*" element={<ErrorPage />}></Route>
-                    )}
+                            <Route path="*" element={<ErrorPage />}></Route>
+                        )}
                 </Routes>
             </BrowserRouter>
         </div>
