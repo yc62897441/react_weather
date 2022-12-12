@@ -3,7 +3,7 @@ import { Link as ReactRouterLink } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import { formatDate } from '../helpers/moment'
+import { formatMoment } from '../helpers/moment'
 
 const WaetherFilterWrapper = styled.div`
     width: 100vw;
@@ -224,7 +224,7 @@ function WeatherFilter({ locationsWeatherData }) {
                                 {matchLocations.length > 0 &&
                                     matchLocations[0].weatherElement[0].time.map((time) => (
                                         <TableCellEachDay key={time.startTime} class="table-cell table-cell-each-day">
-                                            <div>{formatDate(time.startTime)}</div>
+                                            <div>{formatMoment(time.startTime, 'YYYY-MM-DD')}</div>
                                             <div>
                                                 <div>最高溫</div>
                                                 <div>最低溫</div>
