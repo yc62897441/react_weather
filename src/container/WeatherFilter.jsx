@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { Link as ReactRouterLink } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { formatMoment } from '../helpers/moment'
 import { MainWrapper } from '../components/MainWrapper'
 import { MainTable, TableHeader, TableBody, TableRow, TableCellEachDay, TableCellEachDayMtTitle } from '../components/FormGroup'
+import { Link } from '../components/Link'
 
 const FilterControlWrapper = styled.div`
     display: flex;
@@ -49,21 +49,6 @@ const FormRow = styled.div`
         input {
             margin-bottom: 12px;
         }
-    }
-`
-
-const Link = styled(ReactRouterLink)`
-    width: 100%;
-    margin-right: 0.5rem;
-    cursor: pointer;
-    text-decoration: none;
-    text-align: center;
-    color: #0d6efd;
-    :hover {
-        color: #1133dd;
-    }
-    @media (min-width: 576px) {
-        margin-right: 1.2rem;
     }
 `
 

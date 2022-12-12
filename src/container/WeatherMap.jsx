@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 /* eslint-disable jsx-a11y/alt-text */
 import { useEffect, useRef } from 'react'
-import { Link as ReactRouterLink } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import { Link } from '../components/Link'
 
 import Map from 'ol/Map'
 import View from 'ol/View'
@@ -169,7 +169,7 @@ function WeatherMap({ locationsWeatherDataThreeHours }) {
 
                     {/* 將每個地點迴圈產生個別的 UI 圖示 */}
                     {locationsWeatherDataThreeHours.map((locat) => (
-                        <ReactRouterLink to={'/mountain/' + locat.parameterSet.parameter.parameterValue}>
+                        <Link to={'/mountain/' + locat.parameterSet.parameter.parameterValue}>
                             <LocatWrapper id={'MtId' + locat.parameterSet.parameter.parameterValue}>
                                 <LocatName>{locat.locationName}</LocatName>
                                 <LocatInfoWrapper>
@@ -180,7 +180,7 @@ function WeatherMap({ locationsWeatherDataThreeHours }) {
                                     <img src={'https://www.cwb.gov.tw/V8/assets/img/weather_icons/weathers/svg_icon/day/' + locat.weatherElement[9].time[0].elementValue[1].value + '.svg'} alt="image" title={locat.weatherElement[9].time[0].elementValue[0].value} />
                                 </LocatWxImgWrapper>
                             </LocatWrapper>
-                        </ReactRouterLink>
+                        </Link>
                     ))}
                 </MapWrapper>
             </WeatherMapWrapper>

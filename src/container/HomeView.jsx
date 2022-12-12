@@ -1,26 +1,10 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import styled from 'styled-components'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import { Link as ReactRouterLink } from 'react-router-dom'
 import { formatMoment } from '../helpers/moment'
 import { MainWrapper } from '../components/MainWrapper'
 import { MainTable, TableHeader, TableBody, TableRow, TableCellEachDay, TableCellEachDayMtTitle } from '../components/FormGroup'
-
-const Link = styled(ReactRouterLink)`
-    width: 100%;
-    margin-right: 0.5rem;
-    cursor: pointer;
-    text-decoration: none;
-    text-align: center;
-    color: #0d6efd;
-    :hover {
-        color: #1133dd;
-    }
-    @media (min-width: 576px) {
-        margin-right: 1.2rem;
-    }
-`
+import { Link } from '../components/Link'
 
 function HomeView({ locationsWeatherData }) {
     return (
